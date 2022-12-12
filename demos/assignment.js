@@ -2,7 +2,7 @@ import PicoGL from "../node_modules/picogl/build/module/picogl.js";
 import {mat4, vec3} from "../node_modules/gl-matrix/esm/index.js";
 
 import {positions, normals, indices} from "../blender/DiscoSuzanne.js"
-import {positions as secondPositions, uvs as secondUvs, indices as secondIndices} from "../blender/MC_w.js"
+import {positions as secondPositions, uvs as secondUvs, indices as secondIndices} from "../blender/Ico.js"
 
 // ******************************************************
 // **               Light configuration                **
