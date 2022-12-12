@@ -23,7 +23,7 @@ import {mat4, vec3, vec4} from "../node_modules/gl-matrix/esm/index.js";
 //                  |/             |/
 //     -.5 -.5 .5   *--------------*  .5 -.5 .5
 
-import {positions, normals, indices} from "../blender/Husky_001.js"
+import {positions, normals, indices} from "../blender/DiscoSuzanne.js"
 
 // ******************************************************
 // **               Geometry processing                **
@@ -46,7 +46,7 @@ let vertexShader = `
     
     void main()
     {
-        gl_Position = modelViewProjectionMatrix * vec4(position, 100);
+        gl_Position = modelViewProjectionMatrix * vec4(position, 20);
         vec3 viewNormal = (modelViewMatrix * vec4(cos(time) * normal, 0.0)).xyz;
         color = mix(bgColor * 0.8, fgColor, viewNormal.z) + pow(viewNormal.z, 20.0);
     }
@@ -111,13 +111,13 @@ let startTime = new Date().getTime() / 1000;
 function draw() {
     let time = new Date().getTime() / 1000 - startTime;
 
-    mat4.perspective(projMatrix, Math.PI / 4, app.width / app.height, 0.1, 20.0);
-    mat4.lookAt(viewMatrix, vec3.fromValues(1, 0, 1), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
+    mat4.perspective(projMatrix, Math.PI / 4, app.width / app.height, 0.1, 100.0);
+    mat4.lookAt(viewMatrix, vec3.fromValues(2, 3, 3), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 9));
     mat4.multiply(viewProjMatrix, projMatrix, viewMatrix);
 
     mat4.fromXRotation(rotateXMatrix, time * 0);
-    mat4.fromYRotation(rotateYMatrix, time * 1);
-    //mat4.fromZRotation(rotateYMatrix, time * 0.2235);
+    mat4.fromYRotation(rotateYMatrix, time * 0);
+    mat4.fromZRotation(rotateYMatrix, time * 1);
     mat4.multiply(modelMatrix, rotateXMatrix, rotateYMatrix);
 
     mat4.multiply(modelViewMatrix, viewMatrix, modelMatrix);
