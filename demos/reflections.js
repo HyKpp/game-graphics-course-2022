@@ -277,8 +277,9 @@ function draw(timems) {
     vec3.rotateY(cameraPosition, vec3.fromValues(0, 1, 3.4), vec3.fromValues(0, 0, 0), time * 0.05);
     mat4.lookAt(viewMatrix, cameraPosition, vec3.fromValues(0, -0.5, 0), vec3.fromValues(0, 1, 0));
 
-    mat4.fromXRotation(rotateXMatrix, time * 0.1136 - Math.PI / 2);
-    mat4.fromZRotation(rotateYMatrix, time * 0.2235);
+    mat4.fromXRotation(rotateXMatrix, Math.PI / 1.5);
+    mat4.fromZRotation(rotateYMatrix, 0);
+    mat4.scale(modelMatrix, modelMatrix, vec3.fromValues(3, 3, 3));
     mat4.mul(modelMatrix, rotateXMatrix, rotateYMatrix);
 
     mat4.fromXRotation(rotateXMatrix, 0.3);
