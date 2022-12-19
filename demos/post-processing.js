@@ -210,7 +210,6 @@ async function loadTexture(fileName) {
 
         drawCall.uniform("diffuseColor", vec4.fromValues(0.3, 0.0, 1.0, 1.0));
         mat4.fromRotationTranslation(modelMatrix, modelRotation, vec3.fromValues(-1.5, 0, -2));
-        mat4.scale(modelMatrix, modelMatrix, vec3.fromValues(2, 2, 2));
         mat4.multiply(modelViewMatrix, viewMatrix, modelMatrix);
         mat4.multiply(modelViewProjectionMatrix, viewProjMatrix, modelMatrix);
         drawCall.draw();

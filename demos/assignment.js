@@ -306,7 +306,7 @@ let postFragmentShader = `
         //col.rgb += (2.0 - col.rgb) * random(v_position.xy) * 0.1;
         
         // Contrast + Brightness
-        col = pow(col, vec4(1.8)) * 0.8;
+        //col = pow(col, vec4(1.8)) * 0.8;
         
         // Color curves
         //col.rgb = col.rgb * vec3(1.2, 1.1, 1.0) + vec3(0.0, 0.05, 0.2);
@@ -407,7 +407,7 @@ let buffer = app.createFramebuffer().colorTarget(0, colorTarget).depthTarget(dep
 
 
 // Change the reflection texture resolution to checkout the difference
-let reflectionResolutionFactor = 0.6;
+let reflectionResolutionFactor = 0.2;
 let reflectionColorTarget = app.createTexture2D(app.width * reflectionResolutionFactor, app.height * reflectionResolutionFactor, {magFilter: PicoGL.LINEAR});
 let reflectionDepthTarget = app.createTexture2D(app.width * reflectionResolutionFactor, app.height * reflectionResolutionFactor, {internalFormat: PicoGL.DEPTH_COMPONENT16});
 let reflectionBuffer = app.createFramebuffer().colorTarget(0, reflectionColorTarget).depthTarget(reflectionDepthTarget);
@@ -499,7 +499,7 @@ let mirrorDrawCall = app.createDrawCall(mirrorProgram, mirrorArray)
     .texture("distortionMap", app.createTexture2D(tex, tex.width, tex.height, ));
 
 
-    /*let drawCall = app.createDrawCall(program, vertexArray)
+/*let drawCall = app.createDrawCall(program, vertexArray)
     .texture("cubemap", cubemap)
     .uniform("baseColor", baseColor)
     .uniform("ambientLightColor", ambientLightColor);*/
@@ -612,13 +612,13 @@ function draw(timems) {
     requestAnimationFrame(draw);
     let time = timems / 1000;
 
-    mat4.perspective(projMatrix, Math.PI / 4, app.width / app.height, 0.1, 100.0);
+    mat4.perspective(projMatrix, Math.PI / 4.5, app.width / app.height, 0.1, 100.0);
     vec3.rotateY(cameraPosition, vec3.fromValues(0, 2, 4), vec3.fromValues(2, 0, 0), time * 0.05);
     mat4.lookAt(viewMatrix, cameraPosition, vec3.fromValues(0, -0.5, 0), vec3.fromValues(0, 1, 0));
 
     for (let i = 0; i < numberOfPointLights; i++) {
-        vec3.rotateZ(pointLightPositions[i], pointLightInitialPositions[i], vec3.fromValues(0, 0, 0), time);
-        positionsBuffer.set(pointLightPositions[i], i * 1);
+        vec3.rotateZ(pointLightPositions[i], pointLightInitialPositions[i], vec3.fromValues(1, 2, 0), time);
+        positionsBuffer.set(pointLightPositions[i], i * 3);
         colorsBuffer.set(pointLightColors[i], i * 1);
     }
 
@@ -630,20 +630,21 @@ function draw(timems) {
     drawCall.draw();
 
     //object itself
-    drawCall.uniform(vec4.fromValues(1, 1.0, 1.0, 1.0));
+    drawCall.uniform(vec4.fromValues(1, 1.0, 2.0, 1.0));
     mat4.fromXRotation(rotateXMatrix, 4.7);
     mat4.multiply(modelViewMatrix, viewMatrix, modelMatrix);
     mat4.multiply(modelMatrix, rotateXMatrix, rotateYMatrix);
     mat4.multiply(modelViewProjectionMatrix, viewProjMatrix, modelMatrix);
     drawCall.draw();
 
+    /*
     drawCall.uniform(vec4.fromValues(1, 1.0, 1.0, 1.0));
     mat4.fromXRotation(rotateXMatrix, 4.7);
     mat4.scale(modelMatrix, modelMatrix, vec3.fromValues(1, 0.9, 1));
     mat4.multiply(modelViewMatrix, viewMatrix, modelMatrix);
     mat4.multiply(modelMatrix, rotateXMatrix, rotateYMatrix);
     mat4.multiply(modelViewProjectionMatrix, viewProjMatrix, modelMatrix);
-    drawCall.draw();
+    drawCall.draw();*/
 
     mat4.fromXRotation(rotateXMatrix, 0);
     mat4.fromYRotation(rotateYMatrix, 0);
